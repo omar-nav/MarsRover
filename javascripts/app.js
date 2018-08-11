@@ -7,7 +7,7 @@ function Rover(direction = "N", x = 0, y = 0) {
   this.travelLog = this.x + ", " + this.y;
 }
 let rover = new Rover();
-// ======================
+
 function turnLeft(rover) {
   if (rover.direction === "N") {
     rover.direction = "W";
@@ -63,14 +63,46 @@ function moveForward(rover, distance) {
   }
 }
 
+function moveBackward(rover, distance) {
+  console.log("moveForward was called");
+  if (rover.direction === "N" && rover.y + distance <= 10) {
+    console.log("Las coordenadas anteriores eran " + rover.travelLog);
+    rover.y = rover.y - distance;
+    rover.travelLog = rover.x + ", " + rover.y;
+  } else if (rover.direction === "E" && rover.x + distance <= 10) {
+    console.log("Las coordenadas anteriores eran " + rover.travelLog);
+    rover.x = rover.x - distance;
+    rover.travelLog = rover.x + ", " + rover.y;
+  } else if (rover.direction === "S" && rover.y + distance <= 10) {
+    console.log("Las coordenadas anteriores eran " + rover.travelLog);
+    rover.y = rover.y + distance;
+    rover.travelLog = rover.x + ", " + rover.y;
+  } else if (rover.direction === "W" && rover.x + distance <= 10) {
+    console.log("Las coordenadas anteriores eran " + rover.travelLog);
+    rover.x = rover.x + distance;
+    rover.travelLog = rover.x + ", " + rover.y;
+  } else if (rover.y + distance > 10) {
+    console.log("¡Aguas! Nuestra cuadrícula solo es 10x10!");
+    console.log("Las coordenadas son " + rover.travelLog);
+    console.log(
+      "No se puede salir de la cuadrícula. O sea las coordenadas tienen que ser menos de 10."
+    );
+  }
+}
+
 function receiveInputs(commandsString, roverObject) {
   for (i = 0; i < commandsString.length; i++) {
     if (commandsString[i] === "f") {
       moveForward(roverObject, 1);
+    } else if (commandsString[i] === "b") {
+      moveBackward(roverObject);
     } else if (commandsString[i] === "l") {
       turnLeft(roverObject);
     } else if (commandsString[i] === "r") {
       turnRight(roverObject);
+    } else {
+      console.log("Los atojos solo son f, b, l, o r.");
+      console.log("Ingrese solo esas letras en el commandString");
     }
   }
 }
